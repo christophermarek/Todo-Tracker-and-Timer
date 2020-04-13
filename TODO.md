@@ -2,8 +2,7 @@
 # TODO
 
 ## Priority
-* Setup react
-* Create nav bar component
+
 * Create todolist component
 * Create time tracker component. NO BACKEND YET
 
@@ -16,4 +15,5 @@
 
 --
 # COMPLETED
-
+* Setup react
+* Create nav bar component

@@ -16,8 +16,6 @@ User can switch to individual pages for each module
 ## Front End
 
 ### Nav bar
-Do this website need a navbar. To login and logout maybe
-Maybe it will contain the links to route each module on the dashboard?
-For now I think just a logout button will suffice
+NAVBAR should be logout and links to different parts of the dashboard
 
 ## Back End
