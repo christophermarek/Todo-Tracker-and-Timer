@@ -1,5 +1,11 @@
 import React from 'react';
 
+function SessionTotal(props){
+    return (
+        <p>You have logged a total of {props.totalTime} today</p>
+    );
+}
+
 function Start(props) {
     return (
       <button className="start-button" onClick={props.onClick}>
@@ -8,11 +14,18 @@ function Start(props) {
     );
   }
 
+function Stop(props){
+    return (
+        <button className="stop-button" onClick={props.onClick}>
+            {props.value}
+        </button>
+    )
+}
+
 function Countdown(props){
     return (
         <div className="countdown-container">
-            <div className="minutes">{props.minutes}</div>
-            <div className="seconds">{props.seconds}</div>
+            {props.minutes + ":" + props.seconds}
         </div>
     );
 }
@@ -20,7 +33,6 @@ function Countdown(props){
 function CountdownInput(props){
     return (
         <div className="counter-input">
-            <p>Enter time in minutes</p>
             
             <input 
             type="number" 
@@ -38,6 +50,13 @@ class TimeTracker extends React.Component {
         super(props);
         this.state = {
           isStart: true,
+          //initial time inputted
+          inMinutes: '00',
+          //checks if there is a timer running at all,
+          //if there is one currently then inMinutes will not change
+          //Should only be set false if timer hits 0, or is reset
+          timerStarted: false,
+          totalTime: 0,
           minutes: '00',
           seconds: '00',
           timerTime: '',
@@ -51,19 +70,28 @@ class TimeTracker extends React.Component {
             let sec = this.state.seconds;
             sec = sec - 1;
 
+            //logic error in timer
             if(sec <= 0){
-                sec = 59;
-                min = min - 1;
-            }            
+                if(min <= 0){
+                    this.setState({
+                        totalTime: this.state.totalTime + parseInt(this.state.inMinutes),
+                        timerStarted: false,
+                        isStart: false,
+                    })
+                    this.stopTimer();
+                }else{
+                    sec = 59;
+                    min = min - 1;
+                }
+            }       
+            
             this.setState({
                 minutes: min,
                 seconds: sec,
             });
 
-            if(sec === 0){
-                this.stopTimer();
-            }
-        }, 1000);
+        //testing time, 1000 is the correct interval
+        }, 10);
       };
 
     
@@ -74,6 +102,7 @@ class TimeTracker extends React.Component {
      }
 
      stopTimer(){
+         console.log("stopped");
         clearInterval(this.timer);
      }
 
@@ -81,11 +110,18 @@ class TimeTracker extends React.Component {
     handleClick(){
         this.state.isStart ? this.startTimer(): this.stopTimer();
         
+        if(!this.state.timerStarted){
+            this.setState({
+                inMinutes: this.state.minutes,
+            })
+        }
+
         this.setState({
             //set minutes to miliseconds
+            timerStarted: true,
             isStart: !this.state.isStart,
         });
-
+        
 
         
     }
@@ -95,6 +131,7 @@ class TimeTracker extends React.Component {
         return (
             <CountdownInput 
                 minutes={this.state.minutes}
+                seconds={this.state.seconds}
                 onChange={(event) => this.handleCountdownInputChange(event)}
                 //onChange={() => this.handleCountdownInputChange(this)}
             />
@@ -111,6 +148,14 @@ class TimeTracker extends React.Component {
         );
     }
 
+    renderStop(){
+        return (
+            <Stop
+                value={"Stop"}
+            />
+        )
+    }
+
     
     //Start button render
     renderStart(){
@@ -122,15 +167,26 @@ class TimeTracker extends React.Component {
         );
     }
 
+    renderTotal(){
+        return (
+            <SessionTotal
+                totalTime={this.state.totalTime}
+            />
+        )
+    }
+
     render(){
 
         return(
             <div className="Time-tracker">
                 <div className="Clock-container">
-                    {this.renderStart()}
                     {this.renderCountdown()}
                     {this.renderCountdownInput()}
+                    {this.renderStart()}
+                    {this.renderStop()}
                 </div>
+                {this.renderTotal()}
+
             </div>
         );
     }

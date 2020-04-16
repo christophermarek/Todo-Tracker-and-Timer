@@ -15,7 +15,7 @@ function App() {
           <header className="App-header">
             <ul className="App-nav">
               {modules.map(module => (
-                  <li key={module.name} className={currentTab === module.name ? 'active' : ''}>
+                  <li key={module.name} className={currentTab === module.name ? 'active' : 'inactive'}>
                     <Link to={module.routeProps.path} onClick={() => setCurrentTab(module.name)}>{module.name}</Link>
                   </li>
               ))}

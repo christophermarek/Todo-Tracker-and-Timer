@@ -27,10 +27,20 @@ update to backend no matter what, it will be put in 'other' category if nothing 
 *if left blank, then it will be just other.
 
 
+
 Container
--Dropdown to select time to count to. 15, 30, 45, 1 hr, 2hr
--start button (this will switch to stop onclick)
--push and save
+(complete)-start button (this will switch to stop onclick)
+-push and save (should auto push when time hits 0, but if you stop I want a button to optionally push this time worked.)
+
+Clock Button logic:
+-Start and Stop (stop is greyed out)
+-when start is clicked, clock counts down 
+-then it is resume and done (resume unpauses and done submits this time as completed)
+-if you resume then the options are pause and stop(stop is reset)
+
+Countdown logic
+-countdown from num to 0
+when sec - 1 < 0
 
 Under
 -count of the amount of time youve worked today.
