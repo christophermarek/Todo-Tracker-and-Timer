@@ -2,7 +2,7 @@ import React from 'react';
 
 function SessionTotal(props){
     return (
-        <p>You have logged a total of {props.totalTime} today</p>
+        <p>You have logged a total of {props.totalTime} this session</p>
     );
 }
 
@@ -35,6 +35,7 @@ function CountdownInput(props){
         <div className="counter-input">
             
             <input 
+            value={props.minutes}
             type="number" 
             onChange={props.onChange}
             />
@@ -50,6 +51,7 @@ class TimeTracker extends React.Component {
         super(props);
         this.state = {
           isStart: true,
+          isStop: true,
           //initial time inputted
           inMinutes: '00',
           //checks if there is a timer running at all,
@@ -64,6 +66,7 @@ class TimeTracker extends React.Component {
 
         this.handleCountdownInputChange = this.handleCountdownInputChange.bind(this);
     }
+
     startTimer = () => {
         this.timer = setInterval(() => {
             let min = this.state.minutes;
@@ -72,12 +75,8 @@ class TimeTracker extends React.Component {
 
             //logic error in timer
             if(sec <= 0){
-                if(min <= 0){
-                    this.setState({
-                        totalTime: this.state.totalTime + parseInt(this.state.inMinutes),
-                        timerStarted: false,
-                        isStart: false,
-                    })
+                if(min === 0){
+                    this.timerFinished();
                     this.stopTimer();
                 }else{
                     sec = 59;
@@ -94,6 +93,13 @@ class TimeTracker extends React.Component {
         }, 10);
       };
 
+    timerFinished(){
+        this.setState({
+            totalTime: this.state.totalTime + parseInt(this.state.inMinutes),
+            timerStarted: false,
+            isStart: false,
+        })
+    }  
     
     handleCountdownInputChange(event) {
         this.setState({
@@ -101,13 +107,38 @@ class TimeTracker extends React.Component {
         });
      }
 
+     //actually only stops timer, refractor name
      stopTimer(){
-         console.log("stopped");
+        
         clearInterval(this.timer);
+     }
+
+
+     stopClicked(){
+         this.stopTimer();
+        //true = done
+        //append time and reset
+        if(this.state.isStop){
+            this.setState({
+                    totalTime: this.state.totalTime + parseInt(this.state.inMinutes),
+            });
+        }
+        this.setState({
+                timerStarted: false,
+                isStart: true,
+                minutes: '00',
+                seconds: '00',
+                isStop: true,
+        });
+        
+        
      }
 
     //Start/stop button handler
     handleClick(){
+
+        //if(this.state.minutes <= 0) return;
+
         this.state.isStart ? this.startTimer(): this.stopTimer();
         
         if(!this.state.timerStarted){
@@ -120,6 +151,7 @@ class TimeTracker extends React.Component {
             //set minutes to miliseconds
             timerStarted: true,
             isStart: !this.state.isStart,
+            isStop: !this.state.isStop,
         });
         
 
@@ -151,7 +183,8 @@ class TimeTracker extends React.Component {
     renderStop(){
         return (
             <Stop
-                value={"Stop"}
+                value={this.state.isStop ? 'Done' : "Stop"}
+                onClick={() => this.stopClicked(this)}
             />
         )
     }
@@ -161,7 +194,7 @@ class TimeTracker extends React.Component {
     renderStart(){
         return (
             <Start
-                value={this.state.isStart ? 'Start' : "Stop"}
+                value={this.state.isStart ? 'Start' : "Pause"}
                 onClick={() => this.handleClick(this)}
             />
         );
@@ -182,8 +215,10 @@ class TimeTracker extends React.Component {
                 <div className="Clock-container">
                     {this.renderCountdown()}
                     {this.renderCountdownInput()}
-                    {this.renderStart()}
-                    {this.renderStop()}
+                    <div className="control">
+                        {this.renderStart()}
+                        {this.renderStop()}
+                    </div>
                 </div>
                 {this.renderTotal()}
 

@@ -40,7 +40,10 @@ Clock Button logic:
 
 Countdown logic
 -countdown from num to 0
-when sec - 1 < 0
+when sec - 1 < 0 then either we decrement a minute then set seconds to 59.
+    when min = 0 then end
+
+
 
 Under
 -count of the amount of time youve worked today.
