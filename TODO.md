@@ -9,9 +9,11 @@
 * Implement backend
   * User Schema
     *username, password, do base first then we can do oAuth after
+  * Front end sign up and login forms. Model and controllers setup first though.
+
   * Authentication
   * I want to preserve the main route, maybe if user is not authenticated then they just get autoredirect to login form
-  
+
 
 
 * Implement backend tracking for time tracker
