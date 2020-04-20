@@ -7,8 +7,6 @@
 --handle this now
 * React authentication handling
 * Implement backend
-  * User Schema
-    *username, password, do base first then we can do oAuth after
   * Front end sign up and login forms. Model and controllers setup first though.
 
   * Authentication
@@ -31,3 +29,6 @@
   * // Start and stop 
   * // Start and pause function first
   * //input needs to clear when timer finished
+
+  * User Schema
+    *username, password, do base first then we can do oAuth after
