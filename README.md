@@ -1,2 +1,2 @@
-
-multi service dashboard app 
+MERN stack application
+Multi service dashboard app 

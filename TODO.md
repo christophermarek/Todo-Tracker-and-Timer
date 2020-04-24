@@ -5,14 +5,14 @@
 * Create todolist component
 
 --handle this now
+
 * React authentication handling
+
+* Reimpliment backend
 * Implement backend
   * Front end sign up and login forms. Model and controllers setup first though.
 
-  * Authentication
-  * I want to preserve the main route, maybe if user is not authenticated then they just get autoredirect to login form
-
-
+  
 
 * Implement backend tracking for time tracker
   * Write schema for time model
@@ -29,6 +29,6 @@
   * // Start and stop 
   * // Start and pause function first
   * //input needs to clear when timer finished
-
-  * User Schema
-    *username, password, do base first then we can do oAuth after
+* User Schema
+  *username, password, do base first then we can do oAuth after
+* Authentication

@@ -15,6 +15,16 @@ User can switch to individual pages for each module
 
 ## Front End
 
+HomePage
+homepage should check if useris logged in.
+-if login then-> render normal nav bar and everything
+-if not login then -> popup (login/signup form)
+
+Navbar
+check if there is a token, if there is then display logout, otherwise login
+
+
+
 ### Nav bar
 NAVBAR should be logout and links to different parts of the dashboard
 
@@ -56,3 +66,12 @@ Time Schema
 -date
 -time
 -category
+
+passport
+User
+-username
+-password
+
+Routes
+'/'
+'/login'
