@@ -27,7 +27,7 @@ class Auth {
         username,
         password,
         email: username,
-        active: true // change to false if you want the user to activate through email
+        active: false // change to false if you want the user to activate through email
       }), password, async (error, account) => {
         if (error) {
           return res.status(500).json({ message: "Password Error", error });
