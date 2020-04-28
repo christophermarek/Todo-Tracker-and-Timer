@@ -4,16 +4,6 @@
 ## Priority
 * Create todolist component
 
---handle this now
-
-* React authentication handling
-
-* Reimpliment backend
-* Implement backend
-  * Front end sign up and login forms. Model and controllers setup first though.
-
-  
-
 * Implement backend tracking for time tracker
   * Write schema for time model
 
@@ -32,3 +22,7 @@
 * User Schema
   *username, password, do base first then we can do oAuth after
 * Authentication
+* React authentication handling
+* Reimpliment backend
+* Implement backend
+  * Front end sign up and login forms. Model and controllers setup first though.

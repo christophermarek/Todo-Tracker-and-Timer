@@ -1,107 +1,65 @@
 const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
 const dotenv = require("dotenv");
+const mongoose = require('mongoose');
 const cors = require("cors");
+const https = require('https');
+
 dotenv.config();
 console.log("dotenv", dotenv);
 
-// anti ddos
-const RateLimit = require("express-rate-limit");
+const { resolve, join } = require('path');
+const passport = require('passport');
 
-// passport imports
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const session = require("express-session");
-const JwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
-
-// mongo imports
-require("mongodb");
-require("mongodb").MongoClient;
-require("./models/mongodb");
-
-const indexRouter = require('./routes/index');
-const auth = require("./routes/user");
-
+const routes = require('./routes');
 const app = express();
-const limiter = new RateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-    delayMs: 0 // disable delaying - full speed until the max limit is reached
-});
 
-app.use(logger('dev'));
+// Bodyparser Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser(process.env.cookieParserSecret));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(limiter);
-app.use(
-    session({
-      resave: true,
-      saveUninitialized: true,
-      secret: process.env.cookieParserSecret
-    })
-  );
+app.use(express.urlencoded({ extended: true }));
+
 app.use(passport.initialize());
-app.use(passport.session());
-app.use(cors());
-  
-app.use("/auth", auth);
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+require('./services/jwtStrategy');
+require('./services/localStrategy');
 
-// passport initialize
-const { User } = require("./models/user");
-passport.use(new LocalStrategy(User.authenticate()));
+const isProduction = process.env.NODE_ENV === 'production';
 
+// DB Config
+const dbConnection = isProduction ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV;
 
-// method for authorize user,
-//it will assume the token is in header under Bearer Auth
-passport.use(
-  new JwtStrategy(
-    {
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.JWTsecret
-    },
-    (jwtPayload, cb) => {
-      //find the user in db if needed
-      return User.findOne({
-        username: jwtPayload.username
-      })
-        .then(user => {
-          return cb(null, user);
-        })
-        .catch(err => {
-          return cb(err);
-        });
-    }
-  )
-);
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// Connect to Mongo
+mongoose
+  .connect(dbConnection, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
+  .then(() => {
+    console.log('MongoDB Connected...');
+  })
+  .catch((err) => console.log(err));
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  const err = new Error("Not Found");
-  err.status = 404;
-  next(err);
-});
+// Use Routes
+app.use('/', routes);
+app.use('/public', express.static(join(__dirname, '../public')));
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+// Serve static assets if in production
+if (isProduction) {
+  // Set static folder
+  app.use(express.static(join(__dirname, '../../client/build')));
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
-});
+  app.get('*', (req, res) => {
+    res.sendFile(resolve(__dirname, '../..', 'client', 'build', 'index.html')); // index is in /server/src so 2 folders up
+  });
 
-const port = process.env.PORT || 4000;
-app.listen(port, () => console.log(`Server started on port ${port}`));
+  const port = process.env.PORT || 80;
+  app.listen(port, () => console.log(`Server started on port ${port}`));
+} else {
+  const port = process.env.PORT || 5000;
 
+  const server = https.createServer(app).listen(port, () => {
+    console.log('https server running at ' + port);
+    // console.log(all_routes(app));
+  });
+}
 module.exports = app;
