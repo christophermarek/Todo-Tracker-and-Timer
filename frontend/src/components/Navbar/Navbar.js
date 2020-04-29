@@ -16,7 +16,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
     <nav className="navbar">
         <ul className="nav-links flex-1">
         <li className="nav-item">
-          <Link to="/">Home</Link>
+          <Link to="/timetracker">Home</Link>
         </li>
 
         {auth.isAuthenticated ? (

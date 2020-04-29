@@ -56,8 +56,22 @@ when sec - 1 < 0 then either we decrement a minute then set seconds to 59.
 
 
 Under
--count of the amount of time youve worked today.
+-count of the amount of time youve worked in this session.
 -amount of time separated by category
+
+It will be square divs, and a add new category, which is a dropdown of categories or you can add a new one.
+-This will add a new square to the row of divs. 
+-This square will contain the category name and the amount of time spent this session.
+-The clock will only countdown when a task is selected.
+-When the clock is done the countdown will go to the category.
+
+UI-
+-div container holding the divs
+-The container always has an empty div that when you hit plus it turns into editable. When it is clicked, add another div beside it empty.
+Order of implementation.
+-UI
+-UI interactions code
+-Link to countdown
 
 ## Back End
 

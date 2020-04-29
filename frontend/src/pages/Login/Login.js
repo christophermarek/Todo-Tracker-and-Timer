@@ -5,7 +5,6 @@ import { useFormik } from 'formik';
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 
 import { loginUserWithEmail } from '../../store/actions/authActions';
 import { loginSchema } from './validation';

@@ -7,7 +7,9 @@
 * Implement backend tracking for time tracker
   * Write schema for time model
 
-* Decide how to implement the categories for time tracking
+* Time Tracker
+  * Fix clock logic
+
 
 
 # COMPLETED
@@ -26,3 +28,5 @@
 * Reimpliment backend
 * Implement backend
   * Front end sign up and login forms. Model and controllers setup first though.
+
+* Decide how to implement the categories for time tracking

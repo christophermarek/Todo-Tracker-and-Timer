@@ -3,6 +3,47 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Layout from '../../layout/Layout';
 
+function Categories(props){
+    return (
+        <>
+            {props.categories.map(category => (
+                <div className = "category-box">
+                    <Category 
+                    key={category} 
+                    categoryName={category.name}
+                    sessionTotal={category.sessionTotal}
+                    onClick={props.onClick}
+                    onSubmit={props.onSubmit} 
+                    onChange={props.onChange}
+                     ></Category>
+                </div>
+            ))}
+        </>
+    );
+}
+
+function Category(props){
+    if(props.categoryName === "empty"){
+        return(
+            <button className="empty-category" onClick={props.onClick}>+</button>
+        );
+    }
+    if(props.categoryName === "blank"){
+        return(
+            <form onSubmit={props.onSubmit}>
+                <input type="text" value={props.newCategoryName} onChange={props.onChange}/>
+                <input type="submit" value="Submit" />
+            </form>
+        )
+    }
+    return(
+        <>
+            <p>{props.categoryName}</p>
+            <p>{props.sessionTotal} minutes today</p>
+        </>
+    );
+}
+
 function SessionTotal(props){
     return (
         <p>You have logged a total of {props.totalTime} this session</p>
@@ -48,6 +89,7 @@ function CountdownInput(props){
 }
 
 
+
 class TimeTracker extends React.Component {
     
     constructor(props) {
@@ -65,9 +107,35 @@ class TimeTracker extends React.Component {
           minutes: '00',
           seconds: '00',
           timerTime: '',
+          categories: [{name: 'empty', sessionTotal: 0}],
+          newCategoryName: '',
         };
 
+        this.categoryChanged = this.categoryChanged.bind(this);
         this.handleCountdownInputChange = this.handleCountdownInputChange.bind(this);
+        this.submitCategory = this.submitCategory.bind(this);
+    }
+
+    categoryChanged(event){
+        this.setState({newCategoryName: event.target.value});
+    }
+    submitCategory(event){
+        event.preventDefault();        
+        if(typeof(this.state.categories.find(x => x.name === this.state.newCategoryName)) !== 'undefined'){
+            alert("Category with this name already created");
+        }else{
+            let category = {name: this.state.newCategoryName, sessionTotal: 0};
+            //add new category to list
+            const list = [...this.state.categories, category];
+            //find index of blank category
+            let index = list.findIndex(x => x.name === 'blank');
+            //remove blank category
+            list.splice(index, 1);
+            this.setState({
+                newCategoryName: '',
+                categories: list,
+            });
+        }
     }
 
     startTimer = () => {
@@ -137,10 +205,30 @@ class TimeTracker extends React.Component {
         
      }
 
+    newCategory(){
+        if(typeof(this.state.categories.find(x => x.name === 'blank')) !== 'undefined'){
+            alert("Populate the blank category first");
+        }else{
+            let category = {name: 'blank', sessionTotal: 0};
+            const list = [...this.state.categories, category];
+            this.setState({
+                categories: list,
+            });
+        }
+    } 
+
     //Start/stop button handler
     handleClick(){
 
         //if(this.state.minutes <= 0) return;
+        if(this.state.isStart){
+            if(parseInt(this.state.minutes) <= 0){
+                if(parseInt(this.state.seconds) <= 0){
+                    alert("Enter a valid time");
+                    return;
+                }
+            }
+        }
 
         this.state.isStart ? this.startTimer(): this.stopTimer();
         
@@ -151,7 +239,6 @@ class TimeTracker extends React.Component {
         }
 
         this.setState({
-            //set minutes to miliseconds
             timerStarted: true,
             isStart: !this.state.isStart,
             isStop: !this.state.isStop,
@@ -211,6 +298,19 @@ class TimeTracker extends React.Component {
         )
     }
 
+    renderCategories(){
+        return (
+            <Categories
+                categories={this.state.categories}
+                newCategoryName={this.state.newCategoryName}
+                sessionTotal={this.state.sessionTotal}
+                onClick={() => this.newCategory(this)}
+                onSubmit={(event) => this.submitCategory(event)}
+                onChange={(event) => this.categoryChanged(event)}
+            />
+        )
+    }
+
     render(){
 
         return(
@@ -225,6 +325,9 @@ class TimeTracker extends React.Component {
                     </div>
                 </div>
                 {this.renderTotal()}
+                <div className="categories">
+                    {this.renderCategories()}
+                </div>
 
             </div>
             </Layout>
