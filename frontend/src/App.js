@@ -1,13 +1,11 @@
 import './App.css';
 
-//import modules from './modules';
-
 import React, { useEffect } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie';
-
+import TimeTracker from './pages/TimeTracker/TimeTracker';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import Home from './pages/Home/Home';
@@ -45,6 +43,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/notfound" component={NotFound} />
+          <Route exact path="/timetracker" component={TimeTracker} />
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
         </Switch>

@@ -2,7 +2,6 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-
 import { logOutUser } from '../../store/actions/authActions';
 import './styles.css';
 
@@ -12,16 +11,21 @@ const Navbar = ({ auth, logOutUser, history }) => {
     logOutUser(history);
   };
 
-  //here is where i move my old navbar
+
   return (
     <nav className="navbar">
         <ul className="nav-links flex-1">
         <li className="nav-item">
           <Link to="/">Home</Link>
         </li>
+
         {auth.isAuthenticated ? (
           <>
-            
+            <li className="flex-1" />
+            <li className="nav-item">
+              <Link to="/timetracker">Time Tracker</Link>
+            </li>
+
             <li className="flex-1" />
             <li className="nav-item" onClick={onLogOut}>
               <a href="#">Log out</a>

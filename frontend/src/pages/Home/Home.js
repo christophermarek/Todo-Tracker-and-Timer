@@ -8,7 +8,7 @@ import './styles.css';
 
 
 
-const Home = ({ auth, reseedDatabase }) => {
+const Home = ({ auth }) => {
   return (
     <Layout>
       <div className="home-page">
