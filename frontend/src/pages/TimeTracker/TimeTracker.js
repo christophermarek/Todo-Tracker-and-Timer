@@ -4,10 +4,13 @@ import { connect } from 'react-redux';
 import Layout from '../../layout/Layout';
 
 function Categories(props){
+    //console.log(props);
     return (
         <>
             {props.categories.map(category => (
-                <div className = "category-box">
+                <div className = "category-box"
+                    onClick={props.categoryBoxClicked}
+                >
                     <Category 
                     key={category} 
                     categoryName={category.name}
@@ -38,7 +41,7 @@ function Category(props){
     }
     return(
         <>
-            <p>{props.categoryName}</p>
+            <p className="title">{props.categoryName}</p>
             <p>{props.sessionTotal} minutes today</p>
         </>
     );
@@ -107,13 +110,79 @@ class TimeTracker extends React.Component {
           minutes: '00',
           seconds: '00',
           timerTime: '',
-          categories: [{name: 'empty', sessionTotal: 0}],
+          categories: [{name: 'empty', sessionTotal: 0, clicked: false}],
           newCategoryName: '',
         };
 
         this.categoryChanged = this.categoryChanged.bind(this);
         this.handleCountdownInputChange = this.handleCountdownInputChange.bind(this);
         this.submitCategory = this.submitCategory.bind(this);
+        this.categoryBoxClicked = this.categoryBoxClicked.bind(this);
+    }
+
+    updateSessionTotal(minutes){
+        let categoryObj = this.state.categories.find(x => x.clicked === true);
+        let categoryInd = this.state.categories.findIndex(x => x.name === true);
+        
+        //update minutes
+        categoryObj.sessionTotal = parseInt(categoryObj.sessionTotal) + parseInt(minutes)
+
+        let clone = [...this.state.categories];
+        clone[categoryInd] = categoryObj;
+        this.setState({
+            categories: clone,
+        });
+
+    }
+
+    categoryBoxClicked(event){
+        //check if clicked on child elements or parent div
+        let box;
+        if(event.target.className === "category-box"){
+            box = event.target;
+        }else{
+            box = event.target.parentNode;
+        }
+        if(box.className !== 'category-box'){
+            return;
+        }
+        //find child title tag so we can get the category
+        let child = box.querySelector('.title');
+        //catch null error, happens sometimes
+        if(child === null){return}
+        let category = child.textContent;
+
+        for(let i = 0; i < this.state.categories.length; i++){
+            if(this.state.categories[i].name !== category && this.state.categories[i].clicked === true){
+                alert("cannot click on two categories at once");
+                return;
+            }
+        }
+
+        //find category object and set to true or false
+        let categoryObj = this.state.categories.find(x => x.name === category);
+        let categoryInd = this.state.categories.findIndex(x => x.name === category);
+        
+        //reverse clicked property
+        categoryObj.clicked = !categoryObj.clicked;
+        let clone = [...this.state.categories];
+        clone[categoryInd] = categoryObj;
+        this.setState({
+            categories: clone,
+        });
+
+        //check if clicked already
+        //then
+        //set div color so we know its clicked
+        if(box.style.backgroundColor === "red"){
+            //already clicked so undo
+            box.style.backgroundColor = "white";
+        }else{
+            box.style.backgroundColor = "red";
+
+        }
+        
+        
     }
 
     categoryChanged(event){
@@ -124,7 +193,7 @@ class TimeTracker extends React.Component {
         if(typeof(this.state.categories.find(x => x.name === this.state.newCategoryName)) !== 'undefined'){
             alert("Category with this name already created");
         }else{
-            let category = {name: this.state.newCategoryName, sessionTotal: 0};
+            let category = {name: this.state.newCategoryName, sessionTotal: 0, clicked: false};
             //add new category to list
             const list = [...this.state.categories, category];
             //find index of blank category
@@ -165,6 +234,7 @@ class TimeTracker extends React.Component {
       };
 
     timerFinished(){
+        this.updateSessionTotal(this.state.inMinutes);
         this.setState({
             totalTime: this.state.totalTime + parseInt(this.state.inMinutes),
             timerStarted: false,
@@ -190,6 +260,7 @@ class TimeTracker extends React.Component {
         //true = done
         //append time and reset
         if(this.state.isStop){
+            this.updateSessionTotal(this.state.minutes);
             this.setState({
                     totalTime: this.state.totalTime + parseInt(this.state.inMinutes),
             });
@@ -205,11 +276,12 @@ class TimeTracker extends React.Component {
         
      }
 
-    newCategory(){
+    newCategory(event){
+        event.stopPropagation();
         if(typeof(this.state.categories.find(x => x.name === 'blank')) !== 'undefined'){
             alert("Populate the blank category first");
         }else{
-            let category = {name: 'blank', sessionTotal: 0};
+            let category = {name: 'blank', sessionTotal: 0, clicked: false};
             const list = [...this.state.categories, category];
             this.setState({
                 categories: list,
@@ -219,6 +291,19 @@ class TimeTracker extends React.Component {
 
     //Start/stop button handler
     handleClick(){
+        //continue
+        let cont = false;
+        //check if a category is clicked on.
+        for(let i = 0; i < this.state.categories.length; i++){
+            if(this.state.categories[i].clicked === true){
+                cont = true;
+            }
+        }
+        //dont start timer if no category is clicked
+        if(!cont){
+            alert("must click on a category to start");
+            return;
+        }
 
         //if(this.state.minutes <= 0) return;
         if(this.state.isStart){
@@ -301,10 +386,11 @@ class TimeTracker extends React.Component {
     renderCategories(){
         return (
             <Categories
+                categoryBoxClicked={(event) => this.categoryBoxClicked(event)}
                 categories={this.state.categories}
                 newCategoryName={this.state.newCategoryName}
                 sessionTotal={this.state.sessionTotal}
-                onClick={() => this.newCategory(this)}
+                onClick={(event) => this.newCategory(event)}
                 onSubmit={(event) => this.submitCategory(event)}
                 onChange={(event) => this.categoryChanged(event)}
             />
