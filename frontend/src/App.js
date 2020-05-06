@@ -14,6 +14,7 @@ import NotFound from './pages/NotFound/NotFound';
 import Loader from './components/Loader/Loader';
 
 import { logInUserWithOauth, loadMe } from './store/actions/authActions';
+import './App.css';
 
 const App = ({ logInUserWithOauth, auth, loadMe }) => {
   useEffect(() => {

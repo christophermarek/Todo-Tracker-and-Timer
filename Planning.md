@@ -73,6 +73,10 @@ Order of implementation.
 -UI interactions code
 -Link to countdown
 
+* Each category card should have a timer config option for that category to set timer breaks,
+Maybe each card can have a preset work time
+
+
 ## Back End
 
 Time Schema
@@ -89,3 +93,13 @@ User
 Routes
 '/'
 '/login'
+
+
+## CSS
+color scheme
+DB504A red
+FF6F59 orange, light red
+254441 Dark Green
+43AA8B Light green
+B2B09B Grey, dark brown
+https://coolors.co/db504a-ff6f59-254441-43aa8b-b2b09b

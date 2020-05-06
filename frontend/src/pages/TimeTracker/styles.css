@@ -1,0 +1,101 @@
+.category-box{
+    border-style: solid;
+    width:100%;
+    padding: 1%;
+    height: auto;
+    margin: 1%;
+    
+}
+.categories{
+    border:solid;
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 1%;
+}
+
+.Time-container{
+    border:solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2%;
+    padding-bottom: 5%;
+    padding-left: 10%;
+    padding-right: 10%;
+    width: 70%;
+}
+
+.Clock-container{
+    padding: 5%;
+    padding-left: 25%;
+    padding-right: 25%;
+    margin: 1%;
+    display:flex;
+    flex-direction: column;
+    background-color: grey;
+    justify-content: space-between;
+    border:solid;
+}
+.countdown-container{
+    text-align: center;
+    font-family: sans-serif;
+	color: #000000;
+	font-weight: 100;
+    font-size: 55px;
+    border: solid;
+    margin: 5%;
+    padding: 1%;
+}
+
+.control{
+    display:flex;
+    justify-content: center;
+}
+
+.start-button{
+    margin-top: 5%;
+    margin-right: 5%;
+    box-shadow:inset 0px 1px 3px 0px #91b8b3;
+	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
+	background-color:#768d87;
+	border-radius:5px;
+	border:1px solid #566963;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:11px 23px;
+	text-decoration:none;
+	text-shadow:0px -1px 0px #2b665e;
+}
+.stop-button{
+    margin-top: 5%;
+    margin-left: 5%;
+    box-shadow:inset 0px 1px 3px 0px #91b8b3;
+	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
+	background-color:#768d87;
+	border-radius:5px;
+	border:1px solid #566963;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:11px 23px;
+	text-decoration:none;
+	text-shadow:0px -1px 0px #2b665e;
+}
+
+.Time-tracker{
+    border: solid;
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 10%;
+    margin-right: 10%;
+}

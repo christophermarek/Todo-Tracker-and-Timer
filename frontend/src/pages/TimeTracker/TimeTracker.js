@@ -2,6 +2,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Layout from '../../layout/Layout';
+import './styles.css';
 
 function Categories(props){
     //console.log(props);
@@ -402,18 +403,21 @@ class TimeTracker extends React.Component {
         return(
             <Layout>
                 <div className="Time-tracker">
-                <div className="Clock-container">
-                    {this.renderCountdown()}
-                    {this.renderCountdownInput()}
-                    <div className="control">
-                        {this.renderStart()}
-                        {this.renderStop()}
+                    <div className="Clock-container">
+                        {this.renderCountdown()}
+                        {this.renderCountdownInput()}
+                        <div className="control">
+                            {this.renderStart()}
+                            {this.renderStop()}
+                        </div>
                     </div>
-                </div>
-                {this.renderTotal()}
-                <div className="categories">
-                    {this.renderCategories()}
-                </div>
+                    <div className="Time-container">
+                        {this.renderTotal()}
+                        <div className="categories">
+                            {this.renderCategories()}
+                        </div>
+                    </div>
+                    
 
             </div>
             </Layout>

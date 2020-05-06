@@ -14,27 +14,24 @@ const Navbar = ({ auth, logOutUser, history }) => {
 
   return (
     <nav className="navbar">
-        <ul className="nav-links flex-1">
+
+        <ul className="nav-links">
         <li className="nav-item">
           <Link to="/timetracker">Home</Link>
         </li>
 
         {auth.isAuthenticated ? (
           <>
-            <li className="flex-1" />
             <li className="nav-item">
               <Link to="/timetracker">Time Tracker</Link>
             </li>
 
-            <li className="flex-1" />
             <li className="nav-item" onClick={onLogOut}>
               <a href="#">Log out</a>
             </li>
           </>
         ) : (
           <>
-            <li className="flex-1" />
-
             <li className="nav-item">
               <Link to="/login">Login</Link>
             </li>
