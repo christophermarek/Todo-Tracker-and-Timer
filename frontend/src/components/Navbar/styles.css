@@ -1,5 +1,8 @@
 .navbar{
-    background-color: #DB504A;
+    margin-bottom: 2%;
+    margin-top: 1%;
+    background-color: #E63946;
+    padding: 1%;
 }
 .nav-links{
     list-style-type: none;
@@ -9,8 +12,18 @@
 }
 
 .nav-item{
-    background-color: #FF6F59;
+    background-color: #F1FAEE;
     padding: 1%;
     padding-left: 2%;
     padding-right: 2%;
+    border-radius: 25px;
+    margin-left: 1%;
+    margin-right: 1%;
+    box-shadow:inset 0px 1px 3px 0px #A8DADC;
+
+}
+
+a:hover, a:visited, a:link, a:active{
+    text-decoration: none;
+    color: black;
 }

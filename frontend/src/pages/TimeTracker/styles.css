@@ -14,27 +14,32 @@
 }
 
 .Time-container{
-    border:solid;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 2%;
-    padding-bottom: 5%;
+    padding-bottom: 10%;
     padding-left: 10%;
     padding-right: 10%;
     width: 70%;
+    background-color: #457B9D;
+    border-radius: 25px;
+    box-shadow:inset 0px 1px 3px 0px black;
+
 }
 
 .Clock-container{
+    box-shadow:inset 0px 1px 3px 0px black;
     padding: 5%;
     padding-left: 25%;
     padding-right: 25%;
     margin: 1%;
+    margin-bottom: 4%;
     display:flex;
     flex-direction: column;
-    background-color: grey;
+    background-color: #457B9D;
     justify-content: space-between;
-    border:solid;
+    border-radius: 25px;
 }
 .countdown-container{
     text-align: center;
@@ -42,9 +47,10 @@
 	color: #000000;
 	font-weight: 100;
     font-size: 55px;
-    border: solid;
     margin: 5%;
     padding: 1%;
+    box-shadow:inset 0px 1px 3px 0px black;
+
 }
 
 .control{
@@ -53,49 +59,54 @@
 }
 
 .start-button{
-    margin-top: 5%;
-    margin-right: 5%;
-    box-shadow:inset 0px 1px 3px 0px #91b8b3;
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	background-color:#768d87;
-	border-radius:5px;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:11px 23px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
-}
-.stop-button{
+    flex-basis: 20%;
     margin-top: 5%;
     margin-left: 5%;
-    box-shadow:inset 0px 1px 3px 0px #91b8b3;
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	background-color:#768d87;
+    margin-right: 5%;
+    background-color: #A8DADC;
 	border-radius:5px;
-	border:1px solid #566963;
-	display:inline-block;
+    display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
-	font-family:Arial;
 	font-size:15px;
 	font-weight:bold;
-	padding:11px 23px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
+	padding: 10%;
+    text-decoration:none;
+    font-family: monospace;
+    text-shadow: 1px 1px 20px #000000;
+    text-align: center;
+
+}
+.stop-button{
+    flex-basis: 20%;
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: #A8DADC;
+	border-radius:5px;
+    display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:15px;
+	font-weight:bold;
+	padding: 10%;
+    text-decoration:none;
+    font-family: monospace;
+    text-shadow: 1px 1px 20px #000000;
+    text-align: center;
 }
 
 .Time-tracker{
     border: solid;
     padding: 5%;
+    padding-bottom: 11%;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
     margin-left: 10%;
     margin-right: 10%;
+    background-color: #1D3557;
+    border-radius: 25px;
+    box-shadow:inset 0px 1px 3px 0px black;
 }
