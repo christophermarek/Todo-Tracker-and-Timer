@@ -1,8 +1,9 @@
 .navbar{
     margin-bottom: 2%;
     margin-top: 1%;
-    background-color: #E63946;
+    background-color: #114B5F;
     padding: 1%;
+    border-radius: 25px;
 }
 .nav-links{
     list-style-type: none;
@@ -12,14 +13,17 @@
 }
 
 .nav-item{
-    background-color: #F1FAEE;
+    background-color: #F3E9D2;
     padding: 1%;
     padding-left: 2%;
     padding-right: 2%;
     border-radius: 25px;
     margin-left: 1%;
     margin-right: 1%;
-    box-shadow:inset 0px 1px 3px 0px #A8DADC;
+    box-shadow:inset 0px 1px 3px 0px #F3E9D2;
+    font-family: monospace;
+	font-weight:bold;
+
 
 }
 

@@ -36,7 +36,7 @@ update to backend no matter what, it will be put in 'other' category if nothing 
 *Later I want to be able to select from my own generated list of tasks to allocate this time to, ie spent this time coding or studying
 *if left blank, then it will be just other.
 
-
+Plus button for category, hit plus and it opens a mini form menu to create a category, instead of the plus button
 
 Container
 (complete)-start button (this will switch to stop onclick)
@@ -75,6 +75,25 @@ Order of implementation.
 
 * Each category card should have a timer config option for that category to set timer breaks,
 Maybe each card can have a preset work time
+
+## TODO Module
+Should be a page with a plus button.
+Create your daily todo's
+A todo would be a list of user generated items
+Can be multiple todo lists per day
+
+Button to create new TODO list
+Button to create new TODO list item
+
+Hitting plus button on page generates a new TODO List
+A TODO layout
+-div
+inside should be two lists, in progress and complete
+-new rows in lists are added to the inprogress TODO
+
+
+## Milestone Module
+
 
 
 ## Back End
