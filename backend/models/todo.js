@@ -18,6 +18,14 @@ const TodoSchema = new Schema({
     }] 
 });
 
+TodoSchema.methods.toJSON = function () {
+    return {
+      id: this._id,
+      date: this.date,
+      createdAt: this.createdAt,
+    };
+  };
+
 
 const Todo = mongoose.model('Todo', TodoSchema);
 module.exports = {

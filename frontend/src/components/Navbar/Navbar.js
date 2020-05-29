@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { logOutUser } from '../../store/actions/authActions';
 import './styles.css';
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
 
 const Navbar = ({ auth, logOutUser, history }) => {
   const onLogOut = (event) => {
@@ -13,32 +15,26 @@ const Navbar = ({ auth, logOutUser, history }) => {
 
 
   return (
-    <nav className="navbar">
 
-        <ul className="nav-links">
-        <li className="nav-item">
-          <Link to="/timetracker">Home</Link>
-        </li>
-
+      <Tabs         
+      orientation="vertical"
+      >
+      <Tab label="Home" component={Link} to="/"/>
+      <Tab label="Time Tracker" component={Link} to="/timetracker" />
+      
         {auth.isAuthenticated ? (
           <>
-            <li className="nav-item">
-              <Link to="/timetracker">Time Tracker</Link>
-            </li>
-
             <li className="nav-item" onClick={onLogOut}>
               <a href="#">Log out</a>
             </li>
           </>
         ) : (
           <>
-            <li className="nav-item">
-              <Link to="/login">Login</Link>
-            </li>
+            <Tab label="login" component={Link} to="/login" />
           </>
         )}
-      </ul>
-    </nav>
+      
+      </Tabs>
   );
 };
 

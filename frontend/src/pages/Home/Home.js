@@ -7,7 +7,6 @@ import Layout from '../../layout/Layout';
 import './styles.css';
 
 
-
 const Home = ({ auth }) => {
   return (
     <Layout>

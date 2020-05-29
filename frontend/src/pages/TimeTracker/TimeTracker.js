@@ -3,6 +3,19 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Layout from '../../layout/Layout';
 import './styles.css';
+import Button from '@material-ui/core/Button';
+import { TextField } from '@material-ui/core';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
+import Grid from '@material-ui/core/Grid';
+
+import 'typeface-roboto';
 
 function Categories(props){
     //console.log(props);
@@ -29,7 +42,9 @@ function Categories(props){
 function Category(props){
     if(props.categoryName === "empty"){
         return(
-            <button className="empty-category" onClick={props.onClick}>+</button>
+            <IconButton aria-label="delete" className="empty-category" onClick={props.onClick}>
+                <AddIcon />
+            </IconButton>
         );
     }
     if(props.categoryName === "blank"){
@@ -56,17 +71,21 @@ function SessionTotal(props){
 
 function Start(props) {
     return (
-      <button className="start-button" onClick={props.onClick}>
-        {props.value}
-      </button>
+        <>
+            <Button variant="contained" color="primary" className="start-button" onClick={props.onClick}>
+                {props.value}
+            </Button>
+        </>
     );
   }
 
 function Stop(props){
     return (
-        <button className="stop-button" onClick={props.onClick}>
-            {props.value}
-        </button>
+        <>
+            <Button variant="contained" color="primary" className="stop-button" onClick={props.onClick}>
+                {props.value}
+            </Button>
+        </>
     )
 }
 
@@ -82,7 +101,7 @@ function CountdownInput(props){
     return (
         <div className="counter-input">
             
-            <input 
+            <TextField id="outlined-basic" label="" variant="outlined" 
             value={props.minutes}
             type="number" 
             onChange={props.onChange}
@@ -113,13 +132,29 @@ class TimeTracker extends React.Component {
           timerTime: '',
           categories: [{name: 'empty', sessionTotal: 0, clicked: false}],
           newCategoryName: '',
+          catDialogOpen: false,
         };
+        
+        
 
         this.categoryChanged = this.categoryChanged.bind(this);
         this.handleCountdownInputChange = this.handleCountdownInputChange.bind(this);
         this.submitCategory = this.submitCategory.bind(this);
         this.categoryBoxClicked = this.categoryBoxClicked.bind(this);
     }
+
+    handleClickOpen = () => {
+        this.setState({
+            catDialogOpen: true,
+        });
+    };
+    
+    handleClose = () => {
+        this.setState({
+            catDialogOpen: false,
+        });
+    };
+    
 
     updateSessionTotal(minutes){
         let categoryObj = this.state.categories.find(x => x.clicked === true);
@@ -398,6 +433,10 @@ class TimeTracker extends React.Component {
         )
     }
 
+    renderDialog(){
+        
+    }
+
     render(){
 
         return(
@@ -407,17 +446,19 @@ class TimeTracker extends React.Component {
                         {this.renderCountdown()}
                         {this.renderCountdownInput()}
                         <div className="control">
-                            {this.renderStart()}
-                            {this.renderStop()}
+                            <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
+                                {this.renderStart()}
+                                {this.renderStop()}
+                            </ButtonGroup>
                         </div>
                     </div>
                     <div className="Time-container">
                         {this.renderTotal()}
                         <div className="categories">
                             {this.renderCategories()}
+                            {this.renderDialog()}
                         </div>
                     </div>
-                    
 
             </div>
             </Layout>

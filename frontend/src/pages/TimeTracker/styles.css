@@ -1,106 +1,18 @@
-.category-box{
-    border-style: solid;
-    width:100%;
-    padding: 1%;
-    height: auto;
-    margin: 1%;
-    
-}
-.categories{
-    border:solid;
-    display: flex;
-    flex-direction: row-reverse;
-    padding: 1%;
-}
-
 .Time-container{
     display: flex;
+    justify-content: center;
     flex-direction: column;
     align-items: center;
-    padding-top: 2%;
-    padding-bottom: 5%;
-    padding-left: 10%;
-    padding-right: 10%;
-    width: 70%;
-    background-color: #1A936F;
-    border-radius: 25px;
-    box-shadow:inset 0px 1px 3px 0px black;
 }
 
 .Clock-container{
-    box-shadow:inset 0px 1px 3px 0px black;
-    padding: 5%;
-    padding-left: 25%;
-    padding-right: 25%;
-    margin: 1%;
-    margin-bottom: 4%;
-    display:flex;
-    flex-direction: column;
-    background-color: #1A936F;
-    justify-content: space-between;
-    border-radius: 25px;
-}
-.countdown-container{
-    text-align: center;
-    font-family: sans-serif;
-	color: #000000;
-	font-weight: 100;
-    font-size: 3em;
-    margin: 5%;
-    padding: 1%;
-    box-shadow:inset 0px 1px 3px 0px black;
-}
-
-.control{
-    display:flex;
-    justify-content: center;
-}
-
-.start-button{
-    flex-basis: 20%;
-    margin-top: 5%;
-    margin-left: 5%;
-    margin-right: 5%;
-    background-color: #A8DADC;
-	border-radius:5px;
-    display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-size:15px;
-	font-weight:bold;
-	padding: 10%;
-    text-decoration:none;
-    font-family: monospace;
-    text-shadow: 1px 1px 20px #000000;
-    text-align: center;
-
-}
-.stop-button{
-    flex-basis: 20%;
-    margin-top: 5%;
-    margin-left: 5%;
-    margin-right: 5%;
-    background-color: #A8DADC;
-	border-radius:5px;
-    display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-size:15px;
-	font-weight:bold;
-	padding: 10%;
-    text-decoration:none;
-    font-family: monospace;
-    text-shadow: 1px 1px 20px #000000;
-    text-align: center;
-}
-
-.Time-tracker{
-    padding: 5%;
-    padding-bottom: 11%;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    margin-left: 10%;
-    margin-right: 10%;
+}
+
+.categories{
+    display: flex;
+    flex-direction: row-reverse;
 }

@@ -79,7 +79,7 @@ export const logInUserWithOauth = (token) => async (dispatch, getState) => {
 export const logOutUser = (history) => async (dispatch) => {
   try {
     deleteAllCookies();
-    //just to log user logut on the server
+    //just to log user logout on the server
     await axios.get('/auth/logout');
 
     dispatch({

@@ -15,8 +15,9 @@ GET
 '/todoitem/checked/:id'
 
 Post
-'/' create new todo
-'/:id create new TodoItem'
+'/' create new todo entry
+'/todo' create a todo list object
+'/:todoid/ create new TodoItem'
 
 Put
 '/:id' edit todo
@@ -29,51 +30,7 @@ Delete
 
 */
 
-router.get('/', async (req, res) => {
-  try {
-    const messages = await Message.find().sort({ createdAt: 'desc' }).populate('user');
-
-    res.json({
-      messages: messages.map((m) => {
-        return m.toJSON();
-      }),
-    });
-  } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
-  }
-});
-
-router.get('/:id', async (req, res) => {
-  try {
-    const message = await Message.findById(req.params.id).populate('user');
-    if (!message) return res.status(404).json({ message: 'No message found.' });
-    res.json({ message: message.toJSON() });
-  } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
-  }
-});
-
-router.post('/', requireJwtAuth, async (req, res) => {
-  const { error } = validateMessage(req.body);
-  if (error) return res.status(400).json({ message: error.details[0].message });
-
-  try {
-    let message = await Message.create({
-      text: req.body.text,
-      user: req.user.id,
-    });
-    message = await message.populate('user').execPopulate();
-
-    res.status(200).json({ message: message.toJSON() });
-  } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
-  }
-});
-
-//Create new TODO
-router.post('/', requireJwtAuth, async (req, res) => {
-
-  /*
+/*
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     date: { type: Date, default: Date.now },
     todos: [{
@@ -88,54 +45,83 @@ router.post('/', requireJwtAuth, async (req, res) => {
     }] 
   */
 
-  try {
-    let Todo = await Todo.create({
-      title: req.body.title,
-      user: req.user.id,
+ '/' gets all todos user has including todo items
+router.get('/', requireJwtAuth, async(req, res) => {
+  try{
+    Todo.find({user: req.user.id}, function(err, todo){
+      if(err) return handleError(err);
+        res.status(200).json({message: todo});
     });
-    message = await message.populate('user').execPopulate();
-
-    res.status(200).json({ message: message.toJSON() });
+  } catch(err) {
+    res.sendStatus(500).json({message: 'Something went wrong. '})
+  }
+});
+//Create new TODO obj for user
+//returns TODO object
+router.post('/', requireJwtAuth, async (req, res) => {
+  try {
+    Todo.create({ user: req.user.id }, function (err, todo) {
+      if (err) return handleError(err);
+        res.status(200).json({ message: todo });
+    });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });
 
-router.delete('/:id', requireJwtAuth, async (req, res) => {
-  try {
-    const tempMessage = await Message.findById(req.params.id).populate('user');
-    if (!(tempMessage.user.id === req.user.id || req.user.role === 'ADMIN'))
-      return res.status(400).json({ message: 'Not the message owner or admin.' });
 
-    const message = await Message.findByIdAndRemove(req.params.id).populate('user');
-    if (!message) return res.status(404).json({ message: 'No message found.' });
-    res.status(200).json({ message });
-  } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
-  }
-});
-
-router.put('/:id', requireJwtAuth, async (req, res) => {
-  const { error } = validateMessage(req.body);
-  if (error) return res.status(400).json({ message: error.details[0].message });
-
-  try {
-    const tempMessage = await Message.findById(req.params.id).populate('user');
-    if (!(tempMessage.user.id === req.user.id || req.user.role === 'ADMIN'))
-      return res.status(400).json({ message: 'Not the message owner or admin.' });
-
-    let message = await Message.findByIdAndUpdate(
-      req.params.id,
-      { text: req.body.text, user: tempMessage.user.id },
-      { new: true },
+//creates todolist for users todo obj
+//takes title paramater from request
+router.post('/todo', requireJwtAuth, async (req, res) => {
+  console.log(req.params);
+  try{
+    const todoList = {
+      title: req.body.title
+    }
+    
+    Todo.updateOne(
+      { user: req.user.id },
+      { $push: { todos: todoList } },
+      function(err, result) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send(result);
+        }
+      }
     );
-    if (!message) return res.status(404).json({ message: 'No message found.' });
-    message = await message.populate('user').execPopulate();
 
-    res.status(200).json({ message });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong.' });
   }
+  
+});
+
+ //create new todolist item for the todolist specified in req.params
+ //find todoObj by userId, then list by listId then put item in list
+router.post('/todo/todolist', requireJwtAuth, async (req, res) => {
+  try{
+    const todoListId = req.body.todolistid;
+    const todoItem = {
+      title: req.body.title,
+      checked: false,
+      duration: req.body.duration
+    }
+    Todo.findOneAndUpdate(
+      { user: req.user.id, 'todos._id': todoListId },
+      { $push: { "todos.$.todoitems": todoItem } },
+      function(err,doc) {
+        if(err){
+          res.send(err);
+        }else{
+          res.send(doc);
+        }
+      }
+    );
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+  
 });
 
 module.exports = router;

@@ -19,6 +19,7 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
     },
     validationSchema: registerSchema,
     onSubmit: (values) => {
+      console.log(values);
       registerUserWithEmail(values, history);
     },
   });

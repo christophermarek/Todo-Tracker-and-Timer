@@ -10,7 +10,7 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound/NotFound';
-
+import ApiTests from './pages/Tests/ApiTests';
 import Loader from './components/Loader/Loader';
 
 import { logInUserWithOauth, loadMe } from './store/actions/authActions';
@@ -44,6 +44,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/notfound" component={NotFound} />
+          <Route path="/tests" component={ApiTests} />
           <Route exact path="/timetracker" component={TimeTracker} />
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
