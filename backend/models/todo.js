@@ -23,6 +23,7 @@ TodoSchema.methods.toJSON = function () {
       id: this._id,
       date: this.date,
       createdAt: this.createdAt,
+      user: this.user._id,
     };
   };
 
