@@ -85,7 +85,6 @@ function createTodoObj(collection){
 }
 
 function createTodoItemObj(todoColl, todosid, itemid){
-  console.log();
   let todoItem = {
       id: "",
       title: "",
@@ -94,10 +93,8 @@ function createTodoItemObj(todoColl, todosid, itemid){
    }
   for(let i = 0; i < todoColl.todos.length; i++){
     if(todoColl.todos[i]._id == todosid ){
-      console.log("match");
       for(let k = 0; k < todoColl.todos[i].todoitems.length; k++){
         if(todoColl.todos[i].todoitems[k]._id == itemid){
-          console.log("match");
           todoItem.id = todoColl.todos[i].todoitems[k]._id;
           todoItem.title = todoColl.todos[i].todoitems[k].title;
           todoItem.checked = todoColl.todos[i].todoitems[k].checked;
@@ -109,13 +106,92 @@ function createTodoItemObj(todoColl, todosid, itemid){
   return todoItem;
 }
 
+//'/:id' delete todoList
+router.delete('/todos/:id', requireJwtAuth, async(req, res) => {
+  try{
+    //findOneAndDelete removes every collection, since each collection is inside one large collection for that user.
+    //have to just delete the list
+    todoListId = req.query.todoListId;
+    let todoColl = await Todo.findOne({ user: req.user.id, 'todos._id': todoListId });
+    for(let i = 0; i < todoColl.todos.length; i++){
+      if(todoColl.todos[i]._id == todoListId ){
+        todoColl.todos.splice(i, 1);  
+        
+      }
+    }
+    await todoColl.save();
+    res.status(200).json({message: 'Delete successful'});
+    
+  }catch(err){
+    res.status(500).json({message: 'Something went wrong'});
+  }
+});
+
+// '/todoitem/:id' delete todoitem
+router.delete('/todos/todoitem/:id', requireJwtAuth, async(req, res) => {
+  try{
+    todoListId = req.query.todoListId;
+    itemId = req.query.todoItemId;
+    let todoColl = await Todo.findOne({ user: req.user.id, 'todos._id': todoListId });
+    for(let i = 0; i < todoColl.todos.length; i++){
+      if(todoColl.todos[i]._id == todoListId ){
+        for(let k = 0; k < todoColl.todos[i].todoitems.length; k++){
+          if(todoColl.todos[i].todoitems[k]._id == itemId){
+            todoColl.todos[i].todoitems.splice(k, 1);
+          }
+        }
+      }
+    }
+    await todoColl.save();
+    res.status(200).json({message: 'Delete successful'});
+    
+  }catch(err){
+    res.status(500).json({message: 'Something went wrong'});
+  }
+});
+
+//'/todoitem/:id' edit todoitem
+router.put('/todos/todo/todoitem/checked/:id', requireJwtAuth, async(req, res) => {
+  try{
+    todoListId = req.query.todoListId;
+    itemId = req.query.todoItemId;
+    let todoColl = await Todo.findOne({ user: req.user.id, 'todos._id': todoListId });
+    for(let i = 0; i < todoColl.todos.length; i++){
+      if(todoColl.todos[i]._id == todoListId ){
+        for(let k = 0; k < todoColl.todos[i].todoitems.length; k++){
+          if(todoColl.todos[i].todoitems[k]._id == itemId){
+            todoColl.todos[i].todoitems[k].checked = req.body.checked;
+          }
+        }
+      }
+    }
+    await todoColl.save();
+    res.status(200).json({message: 'Update successful'});
+  } catch(err){
+    res.status(500).json({message: 'Something went wrong'});
+  }
+  
+});
+
 //'/todoitem/:id' edit todoitem
 router.put('/todos/todo/todoitem/:id', requireJwtAuth, async(req, res) => {
   try{
-    console.log(req.query.todoListId);
-    console.log(req.query.todoListId);
-
-    
+    todoListId = req.query.todoListId;
+    itemId = req.query.todoItemId;
+    let todoColl = await Todo.findOne({ user: req.user.id, 'todos._id': todoListId });
+    for(let i = 0; i < todoColl.todos.length; i++){
+      if(todoColl.todos[i]._id == todoListId ){
+        for(let k = 0; k < todoColl.todos[i].todoitems.length; k++){
+          if(todoColl.todos[i].todoitems[k]._id == itemId){
+            todoColl.todos[i].todoitems[k].duration = req.body.duration;
+            todoColl.todos[i].todoitems[k].title = req.body.title;
+            todoColl.todos[i].todoitems[k].checked = req.body.checked;
+          }
+        }
+      }
+    }
+    await todoColl.save();
+    res.status(200).json({message: 'Update successful'});
   } catch(err){
     res.status(500).json({message: 'Something went wrong'});
   }

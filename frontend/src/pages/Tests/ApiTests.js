@@ -113,7 +113,6 @@ const ApiTests = ({ auth }) => {
       if(data.get('checked') == "on"){
         checked = true;
       }
-      console.log(checked);
       let update = {
         title: data.get('title'),
         duration: data.get('duration'),
@@ -126,12 +125,65 @@ const ApiTests = ({ auth }) => {
       }
       axios.put('/api/todos/todos/todo/todoitem/:id', update, config)
       .then(function (response) {
-        console.log(JSON.parse(response.data.message));
+        //console.log(JSON.parse(response.data.message));
       })
       .catch(function (error) {
         console.log(error);
       })
+    }
 
+    const updateTodoListItemChecked = (event) => {
+      event.preventDefault();
+      const data = new FormData(event.target);
+      const todolistid = data.get('todolistid');
+      const todoitemid = data.get('todoitemid');
+      let checked = false;
+      if(data.get('checked') == "on"){
+        checked = true;
+      }
+      let update = {
+        checked: checked
+      }
+      let config = attachToken();
+      config.params = {
+        todoListId: todolistid,
+        todoItemId: todoitemid
+      }
+      axios.put('/api/todos/todos/todo/todoitem/checked/:id', update, config)
+      .then(function (response) {
+        //console.log(JSON.parse(response.data.message));
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    }
+
+    const deleteTodoList = (event) => {
+      event.preventDefault();
+      const data = new FormData(event.target);
+      const todolistid = data.get('todolistid');
+
+      let config = attachToken();
+      config.params = {
+        todoListId: todolistid,
+      }
+      axios.delete('/api/todos/todos/:id', config);
+      alert("Submitted");
+    }
+
+    const deleteTodoItem = (event) => {
+      event.preventDefault();
+      const data = new FormData(event.target);
+      const todolistid = data.get('todolistid');
+      const todoitemid = data.get('todoitemid');
+
+      let config = attachToken();
+      config.params = {
+        todoListId: todolistid,
+        todoItemId: todoitemid
+      }
+      axios.delete('/api/todos/todos/todoitem/:id', config);
+      alert("Submitted");
     }
 
     return(
@@ -153,7 +205,7 @@ const ApiTests = ({ auth }) => {
               </form>
             </div>
             <div>
-              <p>Create TODO List object for user</p>
+              <p>Create TODO List item for user</p>
               <form onSubmit={submitTodoItem}>
                   <p>todolistid</p>
                   <input type="text" name="todolistid"/>
@@ -203,6 +255,36 @@ const ApiTests = ({ auth }) => {
                 <input type="number" name="duration" />
                 <p>item checked</p>
                 <input type="checkbox" name="checked" />
+                <input type="submit" value="Submit" />
+              </form>
+            </div>
+            <div>
+              <p>Update todoList item checked</p>
+              <form onSubmit={updateTodoListItemChecked}>
+                <p>todolistid</p>
+                <input type="text" name="todolistid" />
+                <p>item id</p>
+                <input type="text" name="todoitemid" />
+                <p>item checked</p>
+                <input type="checkbox" name="checked" />
+                <input type="submit" value="Submit" />
+              </form>
+            </div>
+            <div>
+              <p>Delete TodoList</p>
+              <form onSubmit={deleteTodoList}>
+                <p>todolistid</p>
+                <input type="text" name="todolistid" />
+                <input type="submit" value="Submit" />
+              </form>
+            </div>
+            <div>
+              <p>Delete Todo item</p>
+              <form onSubmit={deleteTodoItem}>
+                <p>todolistid</p>
+                <input type="text" name="todolistid" />
+                <p>item id</p>
+                <input type="text" name="todoitemid" />
                 <input type="submit" value="Submit" />
               </form>
             </div>

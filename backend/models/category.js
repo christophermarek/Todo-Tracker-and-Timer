@@ -15,6 +15,8 @@ const categorySchema = new Schema({
     }] 
 });
 
+//https://stackoverflow.com/questions/54516428/update-nested-subdocument-in-mongoose
+//use this answer to build categories this way, maybe refractor todos later
 
 const Category = mongoose.model('Category', categorySchema);
 module.exports = {
