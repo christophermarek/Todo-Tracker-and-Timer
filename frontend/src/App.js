@@ -12,6 +12,7 @@ import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound/NotFound';
 import ApiTests from './pages/Tests/ApiTests';
 import Loader from './components/Loader/Loader';
+import Todo from './pages/Todo/Todo';
 
 import { logInUserWithOauth, loadMe } from './store/actions/authActions';
 import './App.css';
@@ -45,6 +46,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
           <Route path="/register" component={Register} />
           <Route path="/notfound" component={NotFound} />
           <Route path="/tests" component={ApiTests} />
+          <Route path="/todo" component={Todo} />
           <Route exact path="/timetracker" component={TimeTracker} />
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />

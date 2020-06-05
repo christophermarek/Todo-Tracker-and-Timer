@@ -271,14 +271,15 @@ router.post('/todo', requireJwtAuth, async (req, res) => {
       title: req.body.title
     }
     
-    Todo.updateOne(
+    Todo.findOneAndUpdate(
       { user: req.user.id },
       { $push: { todos: todoList } },
       function(err, result) {
         if (err) {
           res.send(err);
         } else {
-          res.send(result);
+          //sends whole collection
+          res.send(createTodoObj(result));
         }
       }
     );

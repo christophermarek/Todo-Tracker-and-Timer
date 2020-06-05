@@ -55,7 +55,7 @@ const ApiTests = ({ auth }) => {
 
       axios.get('/api/todos/', config)
       .then(function (response) {
-        console.log(JSON.parse(response.data.message));
+        console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -186,6 +186,8 @@ const ApiTests = ({ auth }) => {
       alert("Submitted");
     }
 
+
+
     return(
         <div>
             {auth.isAuthenticated ? (
@@ -287,7 +289,7 @@ const ApiTests = ({ auth }) => {
                 <input type="text" name="todoitemid" />
                 <input type="submit" value="Submit" />
               </form>
-            </div>
+            </div>              
           </div>
         ) : (
           <>
