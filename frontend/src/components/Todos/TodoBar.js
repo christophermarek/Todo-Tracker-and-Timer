@@ -57,7 +57,7 @@ const TodoBar = ({addTodoList}) => {
             Cancel
           </Button>
           <Button onClick={submitTodoList} color="primary">
-            Subscribe
+            Create
           </Button>
         </DialogActions>
       </Dialog>

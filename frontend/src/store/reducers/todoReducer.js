@@ -72,6 +72,40 @@ export default function (state = initialState, { type, payload }) {
         isLoading: false,
         error: payload.error,
       };
+      case ADD_TODO_LIST_ITEM_LOADING:
+        return {
+         ...state,
+         isLoading: true,
+       };
+     case ADD_TODO_LIST_ITEM_SUCCESS:
+       return {
+         ...state,
+         isLoading: false,
+         todoObj: payload.todoObj,
+       };
+     case ADD_TODO_LIST_ITEM_FAIL:
+       return {
+         ...state,
+         isLoading: false,
+         error: payload.error,
+       };
+       case DELETE_TODO_LIST_LOADING:
+        return {
+         ...state,
+         isLoading: true,
+       };
+     case DELETE_TODO_LIST_SUCCESS:
+       return {
+         ...state,
+         isLoading: false,
+         todoObj: payload.todoObj,
+       };
+     case DELETE_TODO_LIST_FAIL:
+       return {
+         ...state,
+         isLoading: false,
+         error: payload.error,
+       };
     default:
       return state;
   }

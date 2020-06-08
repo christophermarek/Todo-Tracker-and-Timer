@@ -112,15 +112,15 @@ router.delete('/todos/:id', requireJwtAuth, async(req, res) => {
     //findOneAndDelete removes every collection, since each collection is inside one large collection for that user.
     //have to just delete the list
     todoListId = req.query.todoListId;
+    console.log(todoListId);
     let todoColl = await Todo.findOne({ user: req.user.id, 'todos._id': todoListId });
     for(let i = 0; i < todoColl.todos.length; i++){
       if(todoColl.todos[i]._id == todoListId ){
         todoColl.todos.splice(i, 1);  
-        
       }
     }
     await todoColl.save();
-    res.status(200).json({message: 'Delete successful'});
+    res.send(createTodoObj(todoColl));
     
   }catch(err){
     res.status(500).json({message: 'Something went wrong'});
@@ -290,8 +290,8 @@ router.post('/todo', requireJwtAuth, async (req, res) => {
   
 });
 
- //create new todolist item for the todolist specified in req.params
- //find todoObj by userId, then list by listId then put item in list
+//create new todolist item for the todolist specified in req.params
+//find todoObj by userId, then list by listId then put item in list
 router.post('/todo/todolist', requireJwtAuth, async (req, res) => {
   try{
     const todoListId = req.body.todolistid;
@@ -303,11 +303,11 @@ router.post('/todo/todolist', requireJwtAuth, async (req, res) => {
     Todo.findOneAndUpdate(
       { user: req.user.id, 'todos._id': todoListId },
       { $push: { "todos.$.todoitems": todoItem } },
-      function(err,doc) {
+      function(err, doc) {
         if(err){
           res.send(err);
         }else{
-          res.send(doc);
+          res.send(createTodoObj(doc));
         }
       }
     );

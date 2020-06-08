@@ -71,3 +71,47 @@ export const addTodoList = (formData) => async (dispatch, getState) => {
     });
   }
 };
+
+export const addTodoListItem = (formData) => async (dispatch, getState) => {
+  dispatch({
+    type: ADD_TODO_LIST_ITEM_LOADING,
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post('/api/todos/todo/todolist', formData, options);
+    dispatch({
+      type: ADD_TODO_LIST_ITEM_SUCCESS,
+      payload: { todoObj: response.data },
+    });
+  } catch (err) {
+    dispatch({
+      type: ADD_TODO_LIST_ITEM_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const deleteTodoList = (todolistid) => async (dispatch, getState) => {
+  dispatch({
+    type: DELETE_TODO_LIST_LOADING,
+    payload: { me: { ...getState().auth.me } },
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    options.params = {
+      todoListId: todolistid,
+    }
+    console.log(options);
+    const response = await axios.delete('/api/todos/todos/:id', options);
+    console.log(response);
+    dispatch({
+      type: DELETE_TODO_LIST_SUCCESS,
+      payload: { todoObj: response.data },
+    });
+  } catch (err) {
+    dispatch({
+      type: DELETE_TODO_LIST_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};

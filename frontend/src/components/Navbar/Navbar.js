@@ -21,7 +21,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
       >
       <Tab label="Home" component={Link} to="/"/>
       <Tab label="Time Tracker" component={Link} to="/timetracker" />
-      
+      <Tab label="Todo" component={Link} to="/todo" />
         {auth.isAuthenticated ? (
           <>
             <li className="nav-item" onClick={onLogOut}>
