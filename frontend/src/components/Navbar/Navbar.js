@@ -20,13 +20,11 @@ const Navbar = ({ auth, logOutUser, history }) => {
       orientation="vertical"
       >
       <Tab label="Home" component={Link} to="/"/>
-      <Tab label="Time Tracker" component={Link} to="/timetracker" />
-      <Tab label="Todo" component={Link} to="/todo" />
-        {auth.isAuthenticated ? (
+      {auth.isAuthenticated ? (
           <>
-            <li className="nav-item" onClick={onLogOut}>
-              <a href="#">Log out</a>
-            </li>
+            <Tab label="Time Tracker" component={Link} to="/timetracker" />
+            <Tab label="Todo" component={Link} to="/todo" />
+            <Tab label="Logout" onClick={onLogOut} />
           </>
         ) : (
           <>

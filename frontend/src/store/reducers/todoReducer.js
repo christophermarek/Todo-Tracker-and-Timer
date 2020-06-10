@@ -21,6 +21,7 @@ import {
     EDIT_TODO_LIST_ITEM_SUCCESS,
     EDIT_TODO_LIST_ITEM_FAIL,
     EDIT_TODO_LIST_ITEM_CHECKED_LOADING,
+    EDIT_TODO_LIST_ITEM_CHECKED_SUCCESS,
     EDIT_TODO_LIST_ITEM_CHECKED_FAIL,
     DELETE_TODO_LIST_LOADING,
     DELETE_TODO_LIST_SUCCESS,
@@ -89,7 +90,7 @@ export default function (state = initialState, { type, payload }) {
          isLoading: false,
          error: payload.error,
        };
-       case DELETE_TODO_LIST_LOADING:
+      case DELETE_TODO_LIST_LOADING:
         return {
          ...state,
          isLoading: true,
@@ -101,6 +102,23 @@ export default function (state = initialState, { type, payload }) {
          todoObj: payload.todoObj,
        };
      case DELETE_TODO_LIST_FAIL:
+       return {
+         ...state,
+         isLoading: false,
+         error: payload.error,
+       };
+       case EDIT_TODO_LIST_ITEM_CHECKED_LOADING:
+        return {
+         ...state,
+         isLoading: true,
+       };
+     case EDIT_TODO_LIST_ITEM_CHECKED_SUCCESS:
+       return {
+         ...state,
+         isLoading: false,
+         todoObj: payload.todoObj,
+       };
+     case EDIT_TODO_LIST_ITEM_CHECKED_FAIL:
        return {
          ...state,
          isLoading: false,

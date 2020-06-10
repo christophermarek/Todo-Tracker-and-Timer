@@ -24,6 +24,7 @@ import {
     EDIT_TODO_LIST_ITEM_SUCCESS,
     EDIT_TODO_LIST_ITEM_FAIL,
     EDIT_TODO_LIST_ITEM_CHECKED_LOADING,
+    EDIT_TODO_LIST_ITEM_CHECKED_SUCCESS,
     EDIT_TODO_LIST_ITEM_CHECKED_FAIL,
     DELETE_TODO_LIST_LOADING,
     DELETE_TODO_LIST_SUCCESS,
@@ -101,9 +102,7 @@ export const deleteTodoList = (todolistid) => async (dispatch, getState) => {
     options.params = {
       todoListId: todolistid,
     }
-    console.log(options);
     const response = await axios.delete('/api/todos/todos/:id', options);
-    console.log(response);
     dispatch({
       type: DELETE_TODO_LIST_SUCCESS,
       payload: { todoObj: response.data },
@@ -111,6 +110,35 @@ export const deleteTodoList = (todolistid) => async (dispatch, getState) => {
   } catch (err) {
     dispatch({
       type: DELETE_TODO_LIST_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const editTodoListChecked = (todolistid, todoitemid, checked) => async (dispatch, getState) => {
+  dispatch({
+    type: EDIT_TODO_LIST_ITEM_CHECKED_LOADING,
+    payload: { me: { ...getState().auth.me } },
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+
+    let update = {
+      checked: checked
+    }
+
+    options.params = {
+      todoListId: todolistid,
+      todoItemId: todoitemid
+    }
+    const response = await axios.put('/api/todos/todos/todo/todoitem/checked/:id', update, options);
+    dispatch({
+      type: EDIT_TODO_LIST_ITEM_CHECKED_SUCCESS,
+      payload: { todoObj: response.data },
+    });
+  } catch (err) {
+    dispatch({
+      type: EDIT_TODO_LIST_ITEM_CHECKED_FAIL,
       payload: { error: err?.response?.data.message || err.message },
     });
   }
