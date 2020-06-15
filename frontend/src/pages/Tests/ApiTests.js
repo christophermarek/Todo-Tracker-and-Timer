@@ -186,12 +186,71 @@ const ApiTests = ({ auth }) => {
       alert("Submitted");
     }
 
+    const createCatObject = (event) => {
+      event.preventDefault();
+      let config = attachToken();
+      axios.post('/api/category', {}, config);
+      alert("Submitted");
+    }
 
+    const createCategory = (event) => {
+      event.preventDefault();
+      let config = attachToken();
+      const data = new FormData(event.target);
+      axios.post('/api/category/categories', data, config);
+      alert("Submitted");
+    }
+
+    const deleteCategory = (event) => {
+      event.preventDefault();
+      const data = new FormData(event.target);
+      const categoryid = data.get('categoryid');
+
+      let config = attachToken();
+      config.params = {
+        categoryid: categoryid,
+      }
+      axios.delete('/api/category/categories/:id', config);
+      alert("Submitted");
+    }
+
+    const getCategoryCollection = (event) => {
+      event.preventDefault();
+      const config = attachToken();
+
+      axios.get('/api/category/', config)
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+
+    }
+    
+    const getCategoryById = (event) => {
+      event.preventDefault();
+      const data = new FormData(event.target);
+      const categoryid = data.get('categoryid');
+      let config = attachToken();
+      config.params = {
+        categoryid: categoryid,
+      }
+      axios.get('/api/category/categories/id', config)
+      .then(function (response) {
+        console.log(JSON.parse(response.data.message));
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+
+    }
 
     return(
         <div>
             {auth.isAuthenticated ? (
           <div>
+            <h1>Todo Tests</h1>
             <div>
               <p>Create TODO object for user</p>
               <form onSubmit={submitTodo}>
@@ -289,7 +348,46 @@ const ApiTests = ({ auth }) => {
                 <input type="text" name="todoitemid" />
                 <input type="submit" value="Submit" />
               </form>
-            </div>              
+            </div>   
+            <h1>Category Tests</h1>
+            <div>
+              <p>Create Category Object</p>
+              <form onSubmit={createCatObject}>
+                  <input type="submit" value="Submit" />
+              </form>
+            </div>
+            <div>
+              <p>Create Category inside list</p>
+              <form onSubmit={createCategory}>
+                <p>Category Title</p>
+                <input type="text" name="title" />
+                <p>Todoitem id</p>
+                <input type="text" name="todoitemid" />
+                <input type="submit" value="Submit" />
+              </form>
+            </div>
+            <div>
+              <p>Delete Category</p>
+              <form onSubmit={deleteCategory}>
+                <p>categoryid</p>
+                <input type="text" name="categoryid" />
+                <input type="submit" value="Submit" />
+              </form>
+            </div>
+            <div>
+              <p>Fetch category collection</p>
+              <form onSubmit={getCategoryCollection}>
+                <input type="submit" value="Submit" />
+              </form>
+            </div>
+            <div>
+              <p>Fetch category collection</p>
+              <form onSubmit={getCategoryById}>
+                <p>categoryid</p>
+                <input type="text" name="categoryid" />
+                <input type="submit" value="Submit" />
+              </form>
+            </div>
           </div>
         ) : (
           <>

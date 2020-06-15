@@ -10,7 +10,7 @@ const categorySchema = new Schema({
         title: String,
         date: { type: Date, default: Date.now },
         duration: Number,
-        //figure out how to link todoId like how we linked userID
+        active: {type: Boolean, default: false},
         todoitem: { type: mongoose.Schema.Types.ObjectId, ref: 'TodoItem' }
     }] 
 });

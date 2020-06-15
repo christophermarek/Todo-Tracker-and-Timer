@@ -90,7 +90,8 @@ function createTodoItemObj(todoColl, todosid, itemid){
       title: "",
       checked: "",
       duration: "",
-   }
+  }
+
   for(let i = 0; i < todoColl.todos.length; i++){
     if(todoColl.todos[i]._id == todosid ){
       for(let k = 0; k < todoColl.todos[i].todoitems.length; k++){
