@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Grid from '@material-ui/core/Grid';
@@ -12,17 +13,22 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import { addTodoListItem, deleteTodoList } from '../../store/actions/todoActions';
+import { addLinkedCategory } from '../../store/actions/categoryActions';
 import TodoItem from './TodoItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 
 import './styles.css';
 
-const TodoList = ({todolist, auth, addTodoListItem, deleteTodoList}) => {
+const TodoList = ({todolist, auth, addTodoListItem, deleteTodoList, addLinkedCategory}) => {
   const [itemTitle, setTitle] = useState('');
-
   const [addOpen, setAddOpen] = React.useState(false);
 
+  const [addTimedOpen, setTimedOpen] = React.useState(false);
+  const [categoryTitle, setCategoryTitle] = useState('');
+  const [categoryDuration, setCategoryDuration] = useState(0);
+
+  //add list item functions
   const handleAddItem = () => {
     setAddOpen(true);
   };
@@ -37,9 +43,28 @@ const TodoList = ({todolist, auth, addTodoListItem, deleteTodoList}) => {
     handleItemClose();
   };
 
+  //delete button
   const handleDeleteList = () => {
     deleteTodoList(todolist._id);
     alert("deleted");
+  };
+
+  //add timed list item functions
+  const handleAddTimedItem = () => {
+    setTimedOpen(true);
+  };
+
+  const submitTimedItem = () => {
+    let formatTitle = categoryTitle + " for " + categoryDuration + " minutes.";
+    addTodoListItem({title: formatTitle, todolistid: todolist._id});
+    addLinkedCategory({title: categoryTitle, duration: categoryDuration});
+    handleTimedClosed();
+  };
+
+  const handleTimedClosed = () => {
+    setCategoryTitle('');
+    setCategoryDuration(0);
+    setTimedOpen(false);
   };
 
   return (
@@ -69,12 +94,15 @@ const TodoList = ({todolist, auth, addTodoListItem, deleteTodoList}) => {
         </Grid>
         <Grid item xs={1.5}>
           <ButtonGroup color="primary" aria-label="outlined primary button group">
-          <IconButton aria-label="add" className="btnAddListItem" onClick={handleAddItem}>
-                    <AddIcon />
-          </IconButton>
-          <IconButton aria-label="delete" className="btnDelete" onClick={handleDeleteList}>
-                    <DeleteIcon />
-          </IconButton>
+            <IconButton aria-label="add" className="btnAddListItem" onClick={handleAddItem}>
+                      <AddIcon />
+            </IconButton>
+            <IconButton aria-label="add-timed" className="btnAddTimedListItem" onClick={handleAddTimedItem}>
+                      <AccessTimeIcon />
+            </IconButton>
+            <IconButton aria-label="delete" className="btnDelete" onClick={handleDeleteList}>
+                      <DeleteIcon />
+            </IconButton>
           </ButtonGroup>       
         </Grid>
       </Grid>
@@ -90,19 +118,43 @@ const TodoList = ({todolist, auth, addTodoListItem, deleteTodoList}) => {
             type="text"
             value={itemTitle}
             onChange={e => setTitle(e.target.value)}
-            fullWidth
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleItemClose} color="primary">
-            Cancel
-          </Button>
           <Button onClick={submitTodoItem} color="primary">
             Create
           </Button>
         </DialogActions>
       </Dialog>
       
+      <Dialog open={addTimedOpen} onClose={handleTimedClosed} aria-labelledby="form-timed-dialog-title">
+        <DialogTitle id="form-timed-dialog-title">New Timed Todo Item</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Category Title"
+            type="text"
+            value={categoryTitle}
+            onChange={e => setCategoryTitle(e.target.value)}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Duration in minutes"
+            type="number"
+            value={categoryDuration}
+            onChange={e => setCategoryDuration(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={submitTimedItem} color="primary">
+            Create
+          </Button>
+        </DialogActions>
+      </Dialog>
       
     </div>
   );
@@ -112,4 +164,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {addTodoListItem, deleteTodoList})(TodoList);
+export default connect(mapStateToProps, {addTodoListItem, deleteTodoList, addLinkedCategory})(TodoList);

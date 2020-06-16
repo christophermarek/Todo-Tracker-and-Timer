@@ -3,6 +3,7 @@ const router = express.Router();
 
 const requireJwtAuth = require('../../middleware/requireJwtAuth');
 const {Category} = require('../../models/Category');
+const {Todo} = require('../../models/todo');
 
 function createCategoryObject(collection){
 
@@ -24,7 +25,19 @@ function createCategoryObject(collection){
     }
 
     return categoryObj;
+}
+
+function getTodoItemId(collection, todoListId, category){
+  for(let i = 0; i < collection.todos.length; i++){
+    if(collection.todos[i]._id == todoListId ){
+      for(let k = 0; k < collection.todos[i].todoitems.length; k++){
+        if(collection.todos[i].todoitems[k].title == (category.title + " for " + category.duration + " minutes.")){
+          return todoColl.todos[i].todoitems[k]._id;
+        }
+      }
+    }
   }
+}
 
 //Create new Category obj for user
 //returns Category object
@@ -44,12 +57,13 @@ router.post('/', requireJwtAuth, async (req, res) => {
 //returns category object, with list of categories
 router.post('/categories', requireJwtAuth, async (req, res) => {
     try{
-      const category = {
+      let category = {
         title: req.body.title,
         duration: req.body.duration,
-        todoitem: req.body.todoitemid,
       }
-      
+
+      //gave up on linking them for now, dont think there really is a point.
+      //could be a feature in the future
       Category.findOneAndUpdate(
         { user: req.user.id },
         { $push: { categories: category } },

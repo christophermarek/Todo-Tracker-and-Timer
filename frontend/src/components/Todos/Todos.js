@@ -29,8 +29,8 @@ const Todos = ({ getTodos, todo: { todoObj, isLoading, error } }) => {
       ) : (
         todoList.map((todolist, index) => {
           return <>
-                  <TodoList key={index} todolist={todolist} /> 
-                  <Divider light />
+                    <TodoList key={index} todolist={todolist} /> 
+                    <Divider light />
                   </>;
         })
       )

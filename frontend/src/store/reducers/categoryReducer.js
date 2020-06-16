@@ -61,7 +61,7 @@ export default function (state = initialState, { type, payload }) {
        return {
          ...state,
          isLoading: false,
-         todoObj: payload.todoObj,
+         todoObj: payload.categoryObj,
        };
      case DELETE_CATEGORY_FAIL:
        return {

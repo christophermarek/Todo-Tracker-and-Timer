@@ -32,10 +32,9 @@ export const getCategories = () => async (dispatch, getState) => {
   }
 };
 
-export const addCategory = (formData) => async (dispatch, getState) => {
+export const addLinkedCategory = (formData) => async (dispatch, getState) => {
   dispatch({
     type: ADD_CATEGORY_LOADING,
-    payload: { me: { ...getState().auth.me } },
   });
   try {
     const options = attachTokenToHeaders(getState);
@@ -57,7 +56,6 @@ export const addCategory = (formData) => async (dispatch, getState) => {
 export const deleteCategory = (categoryid) => async (dispatch, getState) => {
   dispatch({
     type: DELETE_CATEGORY_LOADING,
-    payload: { me: { ...getState().auth.me } },
   });
   try {
     const options = attachTokenToHeaders(getState);
