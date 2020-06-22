@@ -55,11 +55,13 @@ router.post('/', requireJwtAuth, async (req, res) => {
 //creates category for users category obj
 //takes title paramater from request
 //returns category object, with list of categories
+//converts input minutes into milliseconds
 router.post('/categories', requireJwtAuth, async (req, res) => {
     try{
+      let toMilliseconds = req.body.duration * 60000;
       let category = {
         title: req.body.title,
-        duration: req.body.duration,
+        duration: toMilliseconds,
       }
 
       //gave up on linking them for now, dont think there really is a point.
@@ -83,6 +85,27 @@ router.post('/categories', requireJwtAuth, async (req, res) => {
       res.status(500).json({ message: 'Something went wrong.' });
     }
     
+});
+
+//takes duration as paramater
+//updates category duration
+router.put('/categories/:id', requireJwtAuth, async(req, res) => {
+  try{
+    categoryId = req.query.categoryId;
+    duration = req.body.duration;
+
+    let categoryCollection = await Category.findOne({ user: req.user.id });
+    for(let i = 0; i < categoryCollection.categories.length; i++){
+      if(categoryCollection.categories[i]._id == categoryId ){
+        categoryCollection.categories[i].duration = duration;
+      }
+    }
+    await categoryCollection.save();
+    res.send(createCategoryObject(categoryCollection));
+  } catch(err){
+    res.status(500).json({message: 'Something went wrong'});
+  }
+  
 });
 
 //delete a category from users categories list

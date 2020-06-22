@@ -13,13 +13,14 @@ const Navbar = ({ auth, logOutUser, history }) => {
     logOutUser(history);
   };
 
+  //<Tab label="Home" component={Link} to="/"/>
 
   return (
 
       <Tabs         
       orientation="vertical"
       >
-      <Tab label="Home" component={Link} to="/"/>
+      
       {auth.isAuthenticated ? (
           <>
             <Tab label="Time Tracker" component={Link} to="/timetracker" />

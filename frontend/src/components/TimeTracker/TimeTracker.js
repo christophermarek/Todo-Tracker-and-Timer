@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import './styles.css';
 import Grid from '@material-ui/core/Grid';
@@ -11,13 +11,15 @@ const TimeTracker = ({ getCategories, category: { categoryObj, isLoading, error 
     useEffect(() => {
         getCategories();
       }, []);
+
     
+
     return (
         <div className="Time-Tracker">
             <Grid container justify="center" spacing={0}>
 
                 <Grid item xs={5} align="center">
-                    <Countdown />
+                    <Countdown categories={categoryObj.categories}/>
                 </Grid>
 
                 <Grid item xs={7} >

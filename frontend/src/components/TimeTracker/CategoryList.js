@@ -4,16 +4,16 @@ import './styles.css';
 import CategoryCard from './CategoryCard';
 import Loader from '../Loader/Loader';
 
-const CategoryList = ({ categories }) => {
+const CategoryList = ({ categories, category }) => {
 
     function renderCategoryCards(){
         return(
           categories === undefined ? (
             <Loader />
           ) : (
-            categories.map((category, index) => {
+            categories.map((categoryItem, index) => {
               return <>
-                        <CategoryCard key={index} category={category} /> 
+                        <CategoryCard key={index} categoryItem={categoryItem} /> 
                       </>;
             })
           )
@@ -28,7 +28,7 @@ const CategoryList = ({ categories }) => {
 };
 
 const mapStateToProps = (state) => ({
-
+  category: state.category,
 });
 
 export default connect(mapStateToProps)(CategoryList);

@@ -16,9 +16,7 @@ const Layout = ({ children }) => {
         </Grid>
         
         <Grid item xs={10}>
-          <Paper >
             <div className="container">{children}</div>
-          </Paper>
         </Grid>
 
       </Grid>
