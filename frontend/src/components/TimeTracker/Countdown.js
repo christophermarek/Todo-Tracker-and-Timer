@@ -13,6 +13,7 @@ const Countdown = ({ category, categories, updateCategoryChecked, getCheckedCate
 
     const [isStart, setStart] = useState(false);
     const [isStop, setStop] = useState(false);
+    const [durationPercent, setPercent] = useState(0);
 
     useEffect(() => {
         let interval = null;
@@ -21,17 +22,26 @@ const Countdown = ({ category, categories, updateCategoryChecked, getCheckedCate
             let updatedTime = parseInt(selectedCategory.duration) - 1000;
             selectedCategory.duration = updatedTime;
             updateCategoryDurationLocal(updatedTime);
+            setPercent(calculatePercentage());
             if(updatedTime <= 0){
                 stopClicked();
                 //categoryCompleted();
             }
-          }, 1);
+          }, 1000);
         } else if (isStop) {
           clearInterval(interval);
         }
         return () => clearInterval(interval);
     }, [isStart]);
     
+    function calculatePercentage(){
+        let percent = 100 * (selectedCategory.duration / selectedCategory.initialDuration);
+        //percent is now how close the current duration is to initial.
+        //I want it to be opposite
+        percent = 100 - percent
+        return percent;
+    }
+
     function getCategoryInfo(){
         let found = {
             duration: '00:00',
@@ -71,6 +81,7 @@ const Countdown = ({ category, categories, updateCategoryChecked, getCheckedCate
     function stopTimer(){
         setStop(true);
         setStart(false);
+        setPercent(0);
     }
 
     function updateBackendDuration(){
@@ -102,7 +113,7 @@ const Countdown = ({ category, categories, updateCategoryChecked, getCheckedCate
     return (
         <div className="Countdown">
             <Box position="relative" display="inline-flex">
-                <CircularProgress variant="static" value={100} size={400} />
+                <CircularProgress variant="static" value={durationPercent} size={400} />
                 <Box
                     top={0}
                     left={0}

@@ -20,6 +20,7 @@ import './App.css';
 const App = ({ logInUserWithOauth, auth, loadMe }) => {
   useEffect(() => {
     loadMe();
+    document.title = "Dashboard";
   }, [loadMe]);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Layout from '../../layout/Layout';
@@ -8,7 +8,9 @@ import  TimeTrackerComponent  from '../../components/TimeTracker/TimeTracker';
 
 
 const TimeTracker = ({ auth }) => {
-    
+    useEffect(() => {
+        document.title = "Time-Tracker";
+    });
     return(
         <Layout>
             <TimeTrackerComponent />

@@ -10,6 +10,7 @@ const categorySchema = new Schema({
         title: String,
         date: { type: Date, default: Date.now },
         duration: Number,
+        initialDuration: Number,
         active: {type: Boolean, default: false},
         todoitem: { type: mongoose.Schema.Types.ObjectId, ref: 'TodoItem' }
     }] 

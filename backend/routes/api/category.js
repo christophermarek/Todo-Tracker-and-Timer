@@ -20,6 +20,7 @@ function createCategoryObject(collection){
         duration: collection.categories[i].duration,
         active: collection.categories[i].active,
         todoitem: collection.categories[i].todoitem,
+        initialDuration: collection.categories[i].initialDuration,
       }
       categoryObj.categories.push(category);
     }
@@ -62,6 +63,7 @@ router.post('/categories', requireJwtAuth, async (req, res) => {
       let category = {
         title: req.body.title,
         duration: toMilliseconds,
+        initialDuration: toMilliseconds,
       }
 
       //gave up on linking them for now, dont think there really is a point.

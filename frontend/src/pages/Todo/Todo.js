@@ -7,7 +7,10 @@ import Layout from '../../layout/Layout';
 import './styles.css';
 
 const Todo = ({ auth }) => {
-    
+    useEffect(() => {
+        document.title = "Todo";
+    });
+
     return (
         <Layout>
             <Todos />
