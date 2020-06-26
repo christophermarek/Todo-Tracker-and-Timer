@@ -11,7 +11,7 @@ work I have in minutes left, and to make sure I commit the full time to that tas
 
 ## Todo List Module
 
-(TodoImage)
+![picture](https://github.com/christophermarek/Todo-Tracker-and-Timer/blob/master/screenshots/Todocapture.PNG)
 
 In this image the plus button at the top creates a new Todo List
 
@@ -19,7 +19,7 @@ The plus button in a list creates a new list item and the clock icon creates a t
 
 ## Time Tracker Module
 
-(TimeTrackerpre)
+![picture](https://github.com/christophermarek/Todo-Tracker-and-Timer/blob/master/screenshots/Timetrackerpreclick.PNG)
 
 In this image the clock is at time 00:00 because no category is selected.
 
@@ -28,10 +28,10 @@ in the Time tracker, the timed list item will be checked.
 
 When you select a category the timer will populate with the duration of that category.
 
-(TimeTrackerinprogress)
+![picture](https://github.com/christophermarek/Todo-Tracker-and-Timer/blob/master/screenshots/timetrackerinprogress.PNG)
 
 When you click a category and hit start, the clock will begin counting down, keeping track of your time.
 
 The progress bar also fills up dynamically.
 
-(TimeTrackerinprogress2)
+![picture](https://github.com/christophermarek/Todo-Tracker-and-Timer/blob/master/screenshots/timetrackercaptureprogress2.PNG)
