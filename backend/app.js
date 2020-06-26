@@ -15,7 +15,7 @@ const app = express();
 var multer = require('multer');
 var upload = multer();
 
-app.listen(5000, () => console.log('Example app listening on port 5000!'))
+app.listen(5000, () => console.log('Example app listening on port 3000!'))
 
 // Bodyparser Middleware
 app.use(express.json());
